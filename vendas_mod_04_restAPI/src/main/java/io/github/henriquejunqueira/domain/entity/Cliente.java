@@ -17,6 +17,9 @@ public class Cliente {
     @Column(name = "nome", length = 100)
     private String nome;
 
+    @Column(name = "cpf", length = 11)
+    private String cpf;
+
     @JsonIgnore // diz para o parser que deve ignorar essa propriedade na hora de exibir os dados
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY) // um cliente para muitos pedidos. O mappedBy mapeia o campo cliente nesse caso
     private Set<Pedido> pedidos;
@@ -55,6 +58,14 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     @Override

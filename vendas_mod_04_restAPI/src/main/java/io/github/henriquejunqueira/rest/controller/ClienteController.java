@@ -3,12 +3,15 @@ package io.github.henriquejunqueira.rest.controller;
 import io.github.henriquejunqueira.domain.entity.Cliente;
 import io.github.henriquejunqueira.domain.repository.Clientes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -82,6 +85,31 @@ public class ClienteController {
                     clientes.save(cliente);
                     return ResponseEntity.noContent().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/api/clientes")
+    public ResponseEntity find(Cliente filtro){
+        // Jeito complexo
+//        String sql = "SELECT * FROM cliente ";
+//
+//        if(filtro.getNome() != null){
+//            sql += " where nome = :nome ";
+//        }
+//
+//        if(filtro.getCpf() != null){
+//            sql += " and cpf = :cpf ";
+//        }
+
+        // Jeito com métodos prontos
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING); // pesquisa o cliente que contém a string
+        Example example = Example.of(filtro, matcher);
+
+        List<Cliente> lista = clientes.findAll(example);
+
+        return ResponseEntity.ok(lista);
     }
 
 }
