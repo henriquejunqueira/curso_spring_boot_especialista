@@ -51,4 +51,11 @@ public class ClienteController {
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/api/clientes")
+    @ResponseBody // ResponseBody é a resposta e RequestBody é o pedido por essa resposta
+    public ResponseEntity save(@RequestBody Cliente cliente){
+        Cliente clienteSalvo = clientes.save(cliente);
+        return ResponseEntity.ok(clienteSalvo);
+    }
+
 }
