@@ -58,4 +58,19 @@ public class ClienteController {
         return ResponseEntity.ok(clienteSalvo);
     }
 
+    @DeleteMapping("/api/clientes/{id}")
+    @ResponseBody
+    public ResponseEntity delete(@PathVariable Integer id){
+
+        Optional<Cliente> cliente = clientes.findById(id);
+
+        if(cliente.isPresent()){
+            clientes.delete(cliente.get());
+            return ResponseEntity.noContent().build(); // noContent é um status de sucesso que não retorna nada
+        }
+
+        return ResponseEntity.notFound().build();
+
+    }
+
 }
