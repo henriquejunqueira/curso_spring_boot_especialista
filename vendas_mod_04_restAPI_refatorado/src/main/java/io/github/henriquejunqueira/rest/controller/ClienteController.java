@@ -77,8 +77,6 @@ public class ClienteController {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example example = Example.of(filtro, matcher);
 
-        List<Cliente> lista = clientes.findAll(example);
-
         return clientes.findAll(example);
     }
 
