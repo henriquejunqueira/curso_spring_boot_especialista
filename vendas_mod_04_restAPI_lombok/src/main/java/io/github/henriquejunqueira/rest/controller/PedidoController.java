@@ -2,6 +2,8 @@ package io.github.henriquejunqueira.rest.controller;
 
 import io.github.henriquejunqueira.domain.entity.ItemPedido;
 import io.github.henriquejunqueira.domain.entity.Pedido;
+import io.github.henriquejunqueira.domain.enums.StatusPedido;
+import io.github.henriquejunqueira.rest.dto.AtualizacaoStatusPedidoDTO;
 import io.github.henriquejunqueira.rest.dto.InformacaoItemPedidoDTO;
 import io.github.henriquejunqueira.rest.dto.InformacoesPedidoDTO;
 import io.github.henriquejunqueira.rest.dto.PedidoDTO;
@@ -47,6 +49,13 @@ public class PedidoController {
             );
     }
 
+    @PatchMapping("/{id}") // atualiza parcialmente
+    @ResponseStatus(NO_CONTENT)
+    public void updateStatus(@PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO atualizacaoStatusPedidoDTO){
+        String novoStatus = atualizacaoStatusPedidoDTO.getNovoStatus();
+        pedidoService.atualizaStatus(id, StatusPedido.valueOf(novoStatus));
+    }
+
     private InformacoesPedidoDTO converter(Pedido pedido){
         return InformacoesPedidoDTO
             .builder()
@@ -55,6 +64,7 @@ public class PedidoController {
             .cpf(pedido.getCliente().getCpf())
             .nomeCliente(pedido.getCliente().getNome())
             .total(pedido.getTotal())
+            .status(pedido.getStatus().name())
             .items(converter(pedido.getItens()))
             .build();
     }

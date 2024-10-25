@@ -1,5 +1,6 @@
 package io.github.henriquejunqueira.domain.entity;
 
+import io.github.henriquejunqueira.domain.enums.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class Pedido {
     // precision define 20 dígitos antes do separador decimal e scale difine 2 dígitos após o separador decimal
     @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedido status;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
