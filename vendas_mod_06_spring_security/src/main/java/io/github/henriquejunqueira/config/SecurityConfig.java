@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     // essa interface server pra criptografar e descriptografar a senha de um usuário
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -34,7 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // metodo que trabalha a autenticação
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        // configuração (temporário) de autenticação em memória
+        auth.inMemoryAuthentication()
+                .passwordEncoder(passwordEncoder()) // define o password encoder
+                .withUser("fulano") // passa um usuário em memória
+                .password(passwordEncoder().encode("123")) // senha do usuário em memória criptografada
+                .roles("USER"); // define o perfil de usuário (nível de acesso)
     }
 
     // metodo que trabalha a autorização. Ele pega o que for autenticado e verifica o nível de autorização de acesso
