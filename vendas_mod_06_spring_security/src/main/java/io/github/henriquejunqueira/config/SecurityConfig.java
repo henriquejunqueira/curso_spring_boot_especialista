@@ -1,5 +1,7 @@
 package io.github.henriquejunqueira.config;
 
+import io.github.henriquejunqueira.service.impl.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     // essa interface server pra criptografar e descriptografar a senha de um usuário
     @Bean
@@ -35,13 +40,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // configuração (apenas temporário) de autenticação em memória
-        auth.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder()) // define o password encoder
-                .withUser("fulano") // passa um usuário em memória
-                .password(passwordEncoder().encode("123")) // senha do usuário em memória criptografada
-                //.authorities("MANTER USUARIO"); // define uma autoridade
-                //.roles("USER"); // define o perfil de usuário (nível de acesso)
-                .roles("USER", "ADMIN");
+//        auth.inMemoryAuthentication()
+//                .passwordEncoder(passwordEncoder()) // define o password encoder
+//                .withUser("fulano") // passa um usuário em memória
+//                .password(passwordEncoder().encode("123")) // senha do usuário em memória criptografada
+//                //.authorities("MANTER USUARIO"); // define uma autoridade
+//                //.roles("USER"); // define o perfil de usuário (nível de acesso)
+//                .roles("USER", "ADMIN");
+
+        auth
+                .userDetailsService(usuarioService) // carrega os usuários do bd
+                .passwordEncoder(passwordEncoder()); // compara a senha do usuário
     }
 
     // metodo que trabalha a autorização. Ele pega quem for autenticado e verifica o nível de acesso
