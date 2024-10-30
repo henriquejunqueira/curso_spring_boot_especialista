@@ -1,6 +1,6 @@
-package io.github.henriquejunqueira;
+package io.github.henriquejunqueira.security.jwt;
 
-// Importa a classe Usuario que representa o usuário na aplicação
+import io.github.henriquejunqueira.VendasApplication;
 import io.github.henriquejunqueira.domain.entity.Usuario;
 
 // Importa classes necessárias para manipulação de JWT
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime; // Importa classe para manipulação de data e hora
 import java.time.ZoneId; // Importa classe para manipulação de fusos horários
 import java.util.Date; // Importa classe para manipulação de datas
-import java.util.HashMap; // Importa classe para manipulação de maps
+
 
 @Service // Indica que esta classe é um serviço gerenciado pelo Spring
 public class JwtService {
