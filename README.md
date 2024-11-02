@@ -7,5 +7,5 @@
 - Module 05 - Bean Validation;
 - Module 06 - Spring Security and JWT;
 - Module 07 - Migration to MySQL Bank;
-- Module 08 - Documentação de API com SWAGGER;
+- Module 08 - API documentation with SWAGGER;
 - Module 09 - Build e Deploy;
